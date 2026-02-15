@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Análisis de Escalada — Emi</title>
+<title>Climb Analysis — Emi</title>
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
   body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; background:#0a0a0f; color:#e0e0e0; line-height:1.6; -webkit-font-smoothing:antialiased; }
@@ -115,7 +115,7 @@
       <div class="badges">
         <span class="badge badge-grade">V4-V5</span>
         <span class="badge badge-angle">roof</span>
-        <span class="badge badge-send">✓ ENVÍO</span>
+        <span class="badge badge-send">✓ SEND</span>
       </div>
       <div style="color:#636e72; font-size:0.75em; margin-top:6px;">🔄 Roof Traverse</div>
       <div class="summary">En ▶ 0:08 se ve tu gancho de talón invertido en el techo, sólido y bien colocado.</div>
@@ -125,7 +125,7 @@
   <!-- ═══════ FULL VIDEO (collapsed, near top for timestamp links) ═══════ -->
   <div class="section fade-up" id="video-section">
     <div class="section-header collapsed" id="video-section-header" onclick="toggleSection(this)">
-      <h2>📹 Ver video completo</h2>
+      <h2>📹 Watch full video</h2>
       <span class="section-arrow">▾</span>
     </div>
     <div class="section-body">
@@ -143,20 +143,20 @@
         <button onclick="setSpeed(2)" class="pb">2×</button>
       </div>
       <div class="stage-seek">
-        <button onclick="seekTo(0.2)" class="sb sb-entry">▶ Entrada</button>
-        <button onclick="seekTo(0.3)" class="sb sb-flow">▶ Flujo</button>
+        <button onclick="seekTo(0.2)" class="sb sb-entry">▶ Entry</button>
+        <button onclick="seekTo(0.3)" class="sb sb-flow">▶ Flow</button>
         <button onclick="seekTo(1.2)" class="sb sb-crux">▶ Crux</button>
-        <button onclick="seekTo(7.1)" class="sb sb-finish">▶ Final</button>
+        <button onclick="seekTo(7.1)" class="sb sb-finish">▶ Finish</button>
       </div>
     </div>
   </div>
         <div style="margin-top:12px;">
-          <div style="font-size:0.72em; text-transform:uppercase; letter-spacing:0.08em; color:#666; margin-bottom:6px;">⚡ Distribución de Esfuerzo</div>
+          <div style="font-size:0.72em; text-transform:uppercase; letter-spacing:0.08em; color:#666; margin-bottom:6px;">⚡ Effort Distribution</div>
     <div class="effort-bar">
-      <div class="effort-seg" data-stage="entry" style="width:85.2%;background:#3b82f6;cursor:pointer" onclick="seekTo(0.2)">Entrada</div>
-      <div class="effort-seg" data-stage="flow" style="width:84.9%;background:#22c55e;cursor:pointer" onclick="seekTo(0.3)">Flujo</div>
+      <div class="effort-seg" data-stage="entry" style="width:85.2%;background:#3b82f6;cursor:pointer" onclick="seekTo(0.2)">Entry</div>
+      <div class="effort-seg" data-stage="flow" style="width:84.9%;background:#22c55e;cursor:pointer" onclick="seekTo(0.3)">Flow</div>
       <div class="effort-seg" data-stage="crux" style="width:86.5%;background:#ef4444;cursor:pointer" onclick="seekTo(1.2)">Crux</div>
-      <div class="effort-seg" data-stage="finish" style="width:75.2%;background:#f59e0b;cursor:pointer" onclick="seekTo(7.1)">Final</div>
+      <div class="effort-seg" data-stage="finish" style="width:75.2%;background:#f59e0b;cursor:pointer" onclick="seekTo(7.1)">Finish</div>
     </div>
         </div>
       </div>
@@ -165,25 +165,26 @@
 
   <!-- ═══════ THE ONE THING ═══════ -->
   <div class="one-thing fade-up fade-up-d1">
-    <div class="cue-label">🎯 CONSEJO CLAVE</div>
-    <div class="cue-text"></div>
-
-    
+    <div class="cue-label">🎯 CUE</div>
+    <div class="cue-text">En el techo, engancha la punta en la presa amarilla más cercana antes de soltar la mano — te ahorra pump para la salida.</div>
 
     <div class="one-section">
-      <div class="one-section-label">📹 TU ESCALADA</div>
+      <div class="one-section-label">💪 WHAT'S WORKING</div>
+      <div class="one-section-body">La manera en que enganchaste el talón en la presa amarilla dentro del techo demuestra buena lectura del problema y confianza en tu core — eso fue clave para no depender solo de brazos.</div>
+    </div>
+
+    <div class="one-section">
+      <div class="one-section-label">📹 YOUR CLIMB</div>
       <div class="one-section-body">En ▶ 0:08 se ve tu gancho de talón invertido en el techo, sólido y bien colocado. En ▶ 0:26 tu pierna derecha queda colgando después de un movimiento — ahí podrías enganchar la punta en una presa amarilla cercana para estabilizarte. En ▶ 0:36 la salida sobre el final del techo estuvo limpia, con ambos pies bien puestos en presas amarillas.</div>
     </div>
 
     <div class="one-section">
-      <div class="one-section-label">🧗 PRUEBA ESTO</div>
-      <div class="one-section-body">En un problema fácil de techo, practica enganchar la punta del pie en cada presa antes de mover las manos. Exagera la pausa — siente los tres puntos de contacto antes de avanzar.
-
-✅ ¿TE SIRVIÓ?</div>
+      <div class="one-section-label">🧗 TRY THIS</div>
+      <div class="one-section-body">En un problema fácil de techo, practica enganchar la punta del pie en cada presa antes de mover las manos. Exagera la pausa — siente los tres puntos de contacto antes de avanzar.</div>
     </div>
 
     <div class="feedback">
-      <span>¿Te sirvió?</span>
+      <span>Did it click?</span>
       <button class="fb-btn" onclick="feedback(1,this)" aria-label="yes">👍</button>
       <button class="fb-btn" onclick="feedback(0,this)" aria-label="no">👎</button>
     </div>
@@ -192,7 +193,7 @@
   <!-- ═══════ DEEP DIVE (hidden — moved effort bar above, hiding rest for now) ═══════ -->
   <div class="section fade-up fade-up-d2" style="display:none">
     <div class="section-header collapsed" onclick="toggleSection(this)">
-      <h2>📊 Análisis Detallado</h2>
+      <h2>📊 Deep Dive</h2>
       <span class="section-arrow">▾</span>
     </div>
     <div class="section-body">
@@ -201,7 +202,7 @@
         <div style="margin:12px 0;">
           <div style="display:flex; align-items:baseline; gap:8px;">
             <span style="font-size:1.8em; font-weight:700; color:#e94560;">12</span>
-            <span style="font-size:0.8em; color:#888;">cortes de pie detectados</span>
+            <span style="font-size:0.8em; color:#888;">foot cuts detected</span>
           </div>
           <div style="display:flex; flex-wrap:wrap; gap:4px; margin-top:8px;"><span style="background:rgba(233,69,96,0.15); color:#e94560; padding:2px 8px; border-radius:4px; font-size:0.75em;">4.4s</span> <span style="background:rgba(233,69,96,0.15); color:#e94560; padding:2px 8px; border-radius:4px; font-size:0.75em;">7.1s</span> <span style="background:rgba(233,69,96,0.15); color:#e94560; padding:2px 8px; border-radius:4px; font-size:0.75em;">16.0s</span> <span style="background:rgba(233,69,96,0.15); color:#e94560; padding:2px 8px; border-radius:4px; font-size:0.75em;">18.7s</span> <span style="background:rgba(233,69,96,0.15); color:#e94560; padding:2px 8px; border-radius:4px; font-size:0.75em;">19.4s</span> <span style="background:rgba(233,69,96,0.15); color:#e94560; padding:2px 8px; border-radius:4px; font-size:0.75em;">23.5s</span> <span style="background:rgba(233,69,96,0.15); color:#e94560; padding:2px 8px; border-radius:4px; font-size:0.75em;">25.5s</span> <span style="background:rgba(233,69,96,0.15); color:#e94560; padding:2px 8px; border-radius:4px; font-size:0.75em;">28.4s</span> <span style="background:rgba(233,69,96,0.15); color:#e94560; padding:2px 8px; border-radius:4px; font-size:0.75em;">30.5s</span> <span style="background:rgba(233,69,96,0.15); color:#e94560; padding:2px 8px; border-radius:4px; font-size:0.75em;">33.2s</span></div>
         </div>
@@ -217,7 +218,7 @@
   <!-- Old "AI Coach" narrative section removed 2026-02-13 -->
 
   <div class="footer">
-    <p>bodyVision · Coach de Escalada IA</p>
+    <p>bodyVision · AI Climbing Coach</p>
     <p style="margin-top:4px;">45.9s · Emi</p>
   </div>
 
