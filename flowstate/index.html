@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Flowstate: what a climbing coach built on pose estimation and vision-language models revealed about how the model sees movement.">
+<title>Flowstate Evidence Pack</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#F4F3EE; --surface:#FFFFFF; --sunk:#EAE8E0; --ink:#1B1A17; --ink2:#4A4841; --muted:#7A776D; --line:#D8D5CB; --line2:#E7E4DA;
+  --accent:#8A3B12; --accent-soft:#F6E6DC; --good:#2E6B45; --good-soft:#E1EFE6; --bad:#9A2B2B; --bad-soft:#F6E1E1; --warn:#8A6A12; --warn-soft:#F6EDD2;
+  --orange:#D9742B; --cyan:#1C7F8E;
+  --serif:"Source Serif 4",Georgia,serif; --sans:"Inter",-apple-system,BlinkMacSystemFont,sans-serif; --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#15150F; --surface:#1D1C16; --sunk:#262520; --ink:#ECE9DF; --ink2:#C4C0B2; --muted:#8E8B7F; --line:#36342B; --line2:#2A2922;
+  --accent:#E29A6B; --accent-soft:#3A2619; --good:#8FCFA6; --good-soft:#1C3326; --bad:#E89A9A; --bad-soft:#3A1F1F; --warn:#E3C46A; --warn-soft:#3A3118;
+  --orange:#F29A52; --cyan:#5CC3D2; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#15150F; --surface:#1D1C16; --sunk:#262520; --ink:#ECE9DF; --ink2:#C4C0B2; --muted:#8E8B7F; --line:#36342B; --line2:#2A2922;
+  --accent:#E29A6B; --accent-soft:#3A2619; --good:#8FCFA6; --good-soft:#1C3326; --bad:#E89A9A; --bad-soft:#3A1F1F; --warn:#E3C46A; --warn-soft:#3A3118;
+  --orange:#F29A52; --cyan:#5CC3D2; color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6;padding-inline:16px;padding-block:40px 80px}
+.wrap{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:56px}
+h1,h2,h3{font-family:var(--serif);line-height:1.15;text-wrap:balance;margin:0;font-weight:600}
+h1{font-size:clamp(30px,5vw,44px);letter-spacing:-.015em}
+h2{font-size:1.55rem;padding-bottom:10px;border-bottom:1px solid var(--line)}
+h3{font-size:1.1rem}
+p{margin:0;max-width:68ch}
+section{display:flex;flex-direction:column;gap:18px}
+.kick{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+.lede{font-family:var(--serif);font-size:1.15rem;color:var(--ink2);max-width:62ch}
+a{color:var(--accent)}
+code,.mono{font-family:var(--mono);font-size:.86em}
+code{background:var(--sunk);padding:1px 5px;border-radius:3px}
+.meta{display:flex;flex-wrap:wrap;gap:6px 20px;font-family:var(--mono);font-size:11.5px;color:var(--muted)}
+.meta b{color:var(--ink2);font-weight:500}
+.caveat{border-left:3px solid var(--warn);background:var(--warn-soft);padding:12px 16px;border-radius:0 6px 6px 0;font-size:.95rem}
+.callout{border-left:3px solid var(--accent);background:var(--accent-soft);padding:12px 16px;border-radius:0 6px 6px 0}
+.callout p{max-width:none}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:16px 18px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.card h3{font-size:1rem}
+.card .lbl{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.quote{font-family:var(--serif);font-size:1rem;line-height:1.5;color:var(--ink);border-left:2px solid var(--line);padding-left:12px;margin:0}
+.quote .gloss{display:block;font-family:var(--sans);font-size:.86rem;color:var(--muted);margin-top:6px}
+.ts{font-family:var(--mono);font-size:.84em;color:var(--orange);font-weight:500}
+video{width:100%;max-width:360px;display:block;background:#000;border-radius:6px;aspect-ratio:9/16;object-fit:contain}
+.clip{display:grid;grid-template-columns:minmax(0,360px) 1fr;gap:20px;align-items:start}
+@media(max-width:640px){.clip{grid-template-columns:1fr}}
+.frames{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+.frames figure{margin:0;display:flex;flex-direction:column;gap:6px;min-width:0}
+.frames img{width:100%;border-radius:4px;border:1px solid var(--line);display:block;aspect-ratio:9/16;object-fit:cover}
+.frames figcaption{font-family:var(--mono);font-size:11px;color:var(--muted);line-height:1.4}
+.frames figcaption b{color:var(--ink);font-weight:500}
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:.9rem}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line2);vertical-align:top}
+th{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:500;background:var(--sunk)}
+tr:last-child td{border-bottom:none}
+td.n{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.pill{display:inline-block;font-family:var(--mono);font-size:10px;padding:2px 7px;border-radius:99px;white-space:nowrap;letter-spacing:.04em}
+.ok{background:var(--good-soft);color:var(--good)}.no{background:var(--bad-soft);color:var(--bad)}.mid{background:var(--warn-soft);color:var(--warn)}.nt{background:var(--sunk);color:var(--muted)}
+.bar{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12px}
+.bar i{display:block;height:10px;background:var(--accent);border-radius:2px}
+.steps{display:flex;flex-direction:column;gap:0;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--surface)}
+.step{display:grid;grid-template-columns:34px 1fr;gap:12px;padding:12px 14px;border-bottom:1px solid var(--line2);min-width:0}
+.step:last-child{border-bottom:none}
+.step .k{font-family:var(--mono);font-size:12px;color:var(--muted);padding-top:3px}
+.step .t{font-family:var(--mono);font-size:.86rem;font-weight:500}
+.step .d{font-size:.9rem;color:var(--ink2);margin-top:3px}
+.step .d em{color:var(--muted)}
+ul,ol{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:6px;max-width:70ch}
+.tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.tool{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.tool .nm{font-family:var(--mono);font-size:.84rem;font-weight:500}
+.tool .what{font-size:.9rem;color:var(--ink2)}
+.tool .caught{font-size:.86rem;color:var(--ink);border-top:1px solid var(--line2);padding-top:6px}
+.tool .caught b{color:var(--accent);font-weight:500}
+.index{font-family:var(--mono);font-size:12px;color:var(--muted);line-height:1.7;columns:2;column-gap:28px}
+@media(max-width:560px){.index{columns:1}}
+.links{display:flex;flex-direction:column;gap:8px}
+footer{border-top:1px solid var(--line);padding-top:14px;font-size:.84rem;color:var(--muted);max-width:76ch}
+details{border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+summary{cursor:pointer;padding:14px 18px;font-family:var(--serif);font-size:1.1rem;font-weight:600;list-style:none;display:flex;justify-content:space-between;align-items:center}
+summary::after{content:"+";font-family:var(--mono);color:var(--muted)}
+details[open] summary::after{content:"–"}
+details .body{padding:0 18px 18px;display:flex;flex-direction:column;gap:14px;border-top:1px solid var(--line2)}
+details .body h3{margin-top:14px}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.fact{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px 16px;min-width:0}
+.fact .v{font-family:var(--serif);font-size:1.6rem;font-weight:600;line-height:1.1}
+.fact .l{font-size:.86rem;color:var(--ink2);margin-top:4px}
+.chart{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px 10px 6px;overflow-x:auto}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kick">Flowstate Labs · Diego Aguado</div>
+  <h1 style="margin-top:10px">What a climbing coach taught me about seeing, modelling and deciding</h1>
+  <p class="lede" style="margin-top:14px">Flowstate is a climbing coach I built and shipped. You upload a video of an attempt, pose estimation measures the body, and a vision-language model writes the coaching. I tested whether the model understood the movement it was coaching. Three results, one climb, every quote the product's actual output.</p>
+  <div class="meta" style="margin-top:16px">
+    <span><b>Stack</b> Next.js PWA · MediaPipe pose · Claude Sonnet 5</span>
+    <span><b>Corpus</b> 86 videos</span>
+    <span><b>Cost</b> about $0.30 per coaching run</span>
+  </div>
+</header>
+
+<section id="f1">
+  <div class="kick">Finding 1</div>
+  <h2>Nothing named the event</h2>
+  <div class="clip">
+    <figure style="margin:0;display:flex;flex-direction:column;gap:6px;min-width:0"><video controls preload="metadata" playsinline src="media/footswitch.mp4"></video><figcaption style="font-size:.85rem;color:var(--ink2)">21.0 to 25.2 s at normal speed: the foot switch, then the fall. Then the same 4.2 seconds again at quarter speed.</figcaption></figure>
+    <div style="display:flex;flex-direction:column;gap:12px;min-width:0">
+      <p>Slight overhang, gym, filmed at 28.6 frames per second. I fall at <span class="ts">24.8 s</span>. The cause is an <b>uncontrolled foot switch</b>: the left foot leaves its hold and lands beside the right foot in a third of a second. Everything after that, the right leg swinging, the hip opening, the arms stretching, is the body trying to recover.</p>
+      <div class="frames">
+        <figure><img src="f/F632.jpg" alt="Frame 632, left foot still on its hold"><figcaption><b>F632 · 22.07 s</b><br>left foot still on its own hold</figcaption></figure>
+        <figure><img src="f/F638.jpg" alt="Frame 638, left foot off the wall, travelling"><figcaption><b>F638 · 22.27 s</b><br>off the wall, travelling</figcaption></figure>
+        <figure><img src="f/F641.jpg" alt="Frame 641, left foot landed beside the right"><figcaption><b>F641 · 22.38 s</b><br>landed beside the right foot</figcaption></figure>
+      </div>
+      <p style="font-size:.92rem;color:var(--ink2)">Any climber watching this names it in one viewing. Three versions of the coach analysed this same video. Here is what each said caused the fall.</p>
+    </div>
+  </div>
+  <div class="two">
+    <div class="card">
+      <span class="lbl">Production coach · first prompt</span>
+      <blockquote class="quote">La caída no fue por falta de alcance, sino porque el torso giró antes de que el pie derecho asentara un punto de apoyo.<span class="gloss">The fall was not a reach problem: the torso turned before the right foot had set a base.</span></blockquote>
+    </div>
+    <div class="card">
+      <span class="lbl">Production coach · rewritten prompt</span>
+      <blockquote class="quote">La cadera se balanceó lateralmente en el crux porque los pies dejaron de presionar activamente justo cuando el torso empezó a girar.<span class="gloss">The hip swung sideways because the feet stopped pressing just as the torso began to turn.</span></blockquote>
+    </div>
+    <div class="card">
+      <span class="lbl">Agent with tools · live run</span>
+      <blockquote class="quote">Ambos pies se quedan bajos y se separan justo cuando estiras el brazo derecho hacia el agarre alto; las piernas dejan de empujar y la cadera se abre hacia afuera del muro.<span class="gloss">Both feet stay low and spread apart as you reach with the right arm; the legs stop pushing and the hip opens away from the wall. Timestamped <span class="ts">22.66 to 24.16 s</span>.</span></blockquote>
+    </div>
+  </div>
+  <div class="callout"><p>All three describe what the body did <em>after</em> the switch: torso turns, feet stop pressing, hip opens. None names the switch. The part of the production pipeline that looks at the frames wrote the words "switch" and "swap" zero times. Its claim came from a hip-stability number that jumped 266 percent, not from anything seen on a foot. The outputs are fluent, specific, and point at the right second. They describe the consequence as the cause.</p></div>
+</section>
+
+<section id="f2">
+  <div class="kick">Finding 2</div>
+  <h2>The agent never looked where it happened</h2>
+  <p>The agent version of the coach is free to investigate. It has ten tools and ten steps: it can pull frames from any part of the video, zoom on a body part, ask for extra frames inside any window, and read per-limb motion numbers. Below, the speed of each ankle through the crux, with the frames the agent actually received drawn as dashed lines.</p>
+  <div class="chart"><svg viewBox="0 0 760 300" width="100%" role="img" aria-label="Ankle speed per frame around the foot switch, with the frames the agent received marked" style="font-family:var(--mono);font-size:11px;display:block;max-width:100%">
+<line x1="44" y1="256.0" x2="744" y2="256.0" stroke="var(--line2)" stroke-width="1"/>
+<text x="38" y="260.0" text-anchor="end" fill="var(--muted)">0</text>
+<line x1="44" y1="200.5" x2="744" y2="200.5" stroke="var(--line2)" stroke-width="1"/>
+<text x="38" y="204.5" text-anchor="end" fill="var(--muted)">4</text>
+<line x1="44" y1="145.0" x2="744" y2="145.0" stroke="var(--line2)" stroke-width="1"/>
+<text x="38" y="149.0" text-anchor="end" fill="var(--muted)">8</text>
+<line x1="44" y1="89.5" x2="744" y2="89.5" stroke="var(--line2)" stroke-width="1"/>
+<text x="38" y="93.5" text-anchor="end" fill="var(--muted)">12</text>
+<line x1="44" y1="34.0" x2="744" y2="34.0" stroke="var(--line2)" stroke-width="1"/>
+<text x="38" y="38.0" text-anchor="end" fill="var(--muted)">16</text>
+<text x="44" y="14" text-anchor="start" fill="var(--muted)">ankle speed, torso-lengths per second</text>
+<line x1="108.4" y1="256" x2="108.4" y2="260" stroke="var(--muted)"/>
+<text x="108.4" y="272" text-anchor="middle" fill="var(--muted)">21 s</text>
+<line x1="268.8" y1="256" x2="268.8" y2="260" stroke="var(--muted)"/>
+<text x="268.8" y="272" text-anchor="middle" fill="var(--muted)">22 s</text>
+<line x1="429.2" y1="256" x2="429.2" y2="260" stroke="var(--muted)"/>
+<text x="429.2" y="272" text-anchor="middle" fill="var(--muted)">23 s</text>
+<line x1="589.6" y1="256" x2="589.6" y2="260" stroke="var(--muted)"/>
+<text x="589.6" y="272" text-anchor="middle" fill="var(--muted)">24 s</text>
+<text x="394.0" y="294" text-anchor="middle" fill="var(--muted)">video time</text>
+<rect x="279.2" y="34" width="50.4" height="222" fill="var(--accent-soft)"/>
+<text x="304.4" y="30" text-anchor="middle" fill="var(--accent)" font-weight="500">foot switch 22.07–22.38 s</text>
+<line x1="105.6" y1="44" x2="374.4" y2="44" stroke="var(--ink2)" stroke-width="1"/>
+<text x="240.0" y="58" text-anchor="middle" fill="var(--ink2)">1.68 s with no frame</text>
+<line x1="716.0" y1="34" x2="716.0" y2="256" stroke="var(--bad)" stroke-width="1.5"/>
+<text x="712.0" y="46" text-anchor="end" fill="var(--bad)">fall 24.8 s</text>
+<path d="M44.0,255.3 L49.6,255.9 L55.2,253.0 L60.8,254.7 L66.4,255.0 L72.0,255.3 L77.6,252.0 L83.2,249.0 L88.8,251.0 L94.4,252.5 L100.0,248.2 L105.6,251.8 L111.2,250.8 L116.8,250.5 L122.4,251.7 L128.0,254.8 L133.6,251.0 L139.2,254.0 L144.8,249.2 L150.4,254.8 L156.0,253.4 L161.6,253.6 L167.2,255.2 L172.8,253.4 L178.4,254.3 L184.0,255.2 L189.6,254.4 L195.2,254.7 L200.8,255.7 L206.4,255.7 L212.0,255.6 L217.6,254.4 L223.2,251.6 L228.8,250.8 L234.4,253.6 L240.0,252.7 L245.6,254.0 L251.2,255.5 L256.8,255.9 L262.4,255.4 L268.0,256.0 L273.6,255.9 L279.2,255.9 L284.8,255.7 L290.4,254.5 L296.0,255.1 L301.6,252.2 L307.2,252.4 L312.8,250.8 L318.4,254.0 L324.0,251.1 L329.6,242.5 L335.2,253.4 L340.8,251.0 L346.4,254.8 L352.0,252.4 L357.6,245.7 L363.2,252.4 L368.8,247.5 L374.4,250.5 L380.0,254.6 L385.6,253.9 L391.2,255.2 L396.8,254.7 L402.4,253.1 L408.0,252.8 L413.6,255.3 L419.2,255.7 L424.8,251.4 L430.4,254.1 L436.0,255.5 L441.6,253.0 L447.2,252.9 L452.8,251.3 L458.4,250.1 L464.0,237.1 L469.6,248.0 L475.2,244.0 L480.8,253.8 L486.4,253.1 L492.0,254.8 L497.6,254.3 L503.2,248.0 L508.8,245.1 L514.4,245.4 L520.0,250.5 L525.6,248.5 L531.2,226.2 L536.8,167.8 L542.4,191.0 L548.0,173.7 L553.6,165.3 L559.2,187.8 L564.8,173.9 L570.4,170.4 L576.0,173.2 L581.6,227.3 L587.2,207.9 L592.8,55.8 L598.4,121.0 L604.0,197.0 L609.6,119.7 L615.2,95.8 L620.8,124.7 L626.4,183.7 L632.0,226.6 L637.6,234.9 L643.2,227.9 L648.8,222.7 L654.4,222.5 L660.0,185.5 L665.6,208.0 L671.2,129.5 L676.8,212.9 L682.4,147.4 L688.0,193.4 L693.6,207.4 L699.2,199.1 L704.8,164.8 L710.4,186.3 L716.0,126.1 L721.6,108.4 L727.2,66.8 L732.8,163.9 L738.4,40.5 L744.0,197.2" fill="none" stroke="var(--cyan)" stroke-width="1.4" stroke-opacity=".75"/>
+<path d="M44.0,252.4 L49.6,254.0 L55.2,247.9 L60.8,252.9 L66.4,249.4 L72.0,250.0 L77.6,252.8 L83.2,252.0 L88.8,256.0 L94.4,254.4 L100.0,251.0 L105.6,251.8 L111.2,245.3 L116.8,227.1 L122.4,212.9 L128.0,230.8 L133.6,213.8 L139.2,215.5 L144.8,241.1 L150.4,248.0 L156.0,251.2 L161.6,252.9 L167.2,251.4 L172.8,251.1 L178.4,250.9 L184.0,252.5 L189.6,252.6 L195.2,254.3 L200.8,252.1 L206.4,254.3 L212.0,255.4 L217.6,255.0 L223.2,255.6 L228.8,253.2 L234.4,253.9 L240.0,253.3 L245.6,253.5 L251.2,255.4 L256.8,255.7 L262.4,255.4 L268.0,255.6 L273.6,253.3 L279.2,253.3 L284.8,249.2 L290.4,244.5 L296.0,247.6 L301.6,242.7 L307.2,243.2 L312.8,225.6 L318.4,190.0 L324.0,157.9 L329.6,220.4 L335.2,249.4 L340.8,236.0 L346.4,252.3 L352.0,253.1 L357.6,252.6 L363.2,247.4 L368.8,248.4 L374.4,249.9 L380.0,252.4 L385.6,253.6 L391.2,254.5 L396.8,254.3 L402.4,254.4 L408.0,253.7 L413.6,255.2 L419.2,255.3 L424.8,250.9 L430.4,254.6 L436.0,254.0 L441.6,251.4 L447.2,253.4 L452.8,251.9 L458.4,253.7 L464.0,254.3 L469.6,253.2 L475.2,252.0 L480.8,246.6 L486.4,251.5 L492.0,254.3 L497.6,254.2 L503.2,251.3 L508.8,252.7 L514.4,252.2 L520.0,249.7 L525.6,253.0 L531.2,244.1 L536.8,250.4 L542.4,246.6 L548.0,234.2 L553.6,226.8 L559.2,240.9 L564.8,249.8 L570.4,252.8 L576.0,250.6 L581.6,241.5 L587.2,242.3 L592.8,238.0 L598.4,243.5 L604.0,245.9 L609.6,236.5 L615.2,245.4 L620.8,237.0 L626.4,223.3 L632.0,225.9 L637.6,234.0 L643.2,236.3 L648.8,242.8 L654.4,238.3 L660.0,239.8 L665.6,245.5 L671.2,239.8 L676.8,234.2 L682.4,192.5 L688.0,201.4 L693.6,216.6 L699.2,183.0 L704.8,164.2 L710.4,214.2 L716.0,108.5 L721.6,113.5 L727.2,35.9 L732.8,161.1 L738.4,52.7 L744.0,241.2" fill="none" stroke="var(--accent)" stroke-width="2"/>
+<line x1="105.6" y1="34" x2="105.6" y2="256" stroke="var(--ink)" stroke-width="1.2" stroke-dasharray="3 3"/>
+<text x="105.6" y="286" text-anchor="middle" fill="var(--ink)">601</text>
+<line x1="374.4" y1="34" x2="374.4" y2="256" stroke="var(--ink)" stroke-width="1.2" stroke-dasharray="3 3"/>
+<text x="374.4" y="286" text-anchor="middle" fill="var(--ink)">649</text>
+<line x1="492.0" y1="34" x2="492.0" y2="256" stroke="var(--ink)" stroke-width="1.2" stroke-dasharray="3 3"/>
+<text x="492.0" y="286" text-anchor="middle" fill="var(--ink)">670</text>
+<line x1="615.2" y1="34" x2="615.2" y2="256" stroke="var(--ink)" stroke-width="1.2" stroke-dasharray="3 3"/>
+<text x="615.2" y="286" text-anchor="middle" fill="var(--ink)">692</text>
+<line x1="648.8" y1="34" x2="648.8" y2="256" stroke="var(--ink)" stroke-width="1.2" stroke-dasharray="3 3"/>
+<text x="648.8" y="286" text-anchor="middle" fill="var(--ink)">698</text>
+<text x="105.6" y="298" text-anchor="start" fill="var(--muted)">↑ frames the agent received</text>
+<rect x="46" y="64" width="262" height="40" fill="var(--surface)" stroke="var(--line)" rx="4"/>
+<line x1="52" y1="78" x2="74" y2="78" stroke="var(--accent)" stroke-width="2"/><text x="80" y="82" fill="var(--ink2)">left ankle</text>
+<line x1="52" y1="94" x2="74" y2="94" stroke="var(--cyan)" stroke-width="1.4"/><text x="80" y="98" fill="var(--ink2)">right ankle (low-confidence landmark)</text>
+</svg></div>
+  <div class="facts">
+    <div class="fact"><div class="v">0 of 18</div><div class="l">stored runs on this climb that received any frame inside the switch (frames 632 to 641)</div></div>
+    <div class="fact"><div class="v">1.68 s</div><div class="l">gap between the two frames that bracket it, 601 and 649, in every run</div></div>
+    <div class="fact"><div class="v">7 of 7</div><div class="l">requests for extra frames, across all runs, that went to the swing and the fall, after 22.66 s. None went into the gap.</div></div>
+  </div>
+  <h3>What the agent was told about that gap</h3>
+  <blockquote class="quote">since previous frame: 1.68s · moved (torso-lengths): right_hand path 5.68 net 0.90, left_foot path 1.23 net 1.23, hips path 0.31 net 0.31, right_foot path 0.25 net 0.25<span class="gloss">The motion line attached to frame 649. The left foot travelled 1.23 torso-lengths and stayed there: a foot relocated, under load, in the crux. The automatic warning did not fire because the rule looked for movement that goes out and comes back. A climber reading that line goes to look. The agent did not request a single frame inside.</span></blockquote>
+  <h3>What the agent wrote instead</h3>
+  <div class="steps">
+    <div class="step"><div class="k">0</div><div><div class="t">before any image</div><div class="d">"<em>El crux probablemente involucra un reposicionamiento del pie derecho: el motion profile muestra f672–693 con ratio path/net de 8.4.</em>" The hypothesis is fixed from the motion summary, which ranks windows by how far a limb went out and back. The switch, one clean move, ranks nowhere. The right-foot scramble after it ranks first.</div></div></div>
+    <div class="step"><div class="k">1</div><div><div class="t">after two images</div><div class="d">"<em>Confirma la hipótesis inicial.</em>" It zooms on the feet at frame 692, during the swing, 1.8 s after the switch.</div></div></div>
+    <div class="step"><div class="k">2</div><div><div class="t">before writing</div><div class="d">"<em>UNKNOWN: Nada crítico adicional. Tengo la secuencia completa del crux.</em>" Nothing critical unknown. I have the complete sequence of the crux. Said over a 1.68-second hole that contains the cause.</div></div></div>
+    <div class="step"><div class="k">3</div><div><div class="t">final</div><div class="d">"Between <span class="ts">23.4 and 24.2 s</span> your right foot goes very high but travels a lot without setting: searches, slips, returns." Specific, timestamped, confident, and about the wrong foot at the wrong second.</div></div></div>
+  </div>
+  <p style="font-size:.92rem;color:var(--ink2)">The pattern held across every stored run: the agent looks at the video once, at step 0, forms a story from the numbers, and uses the remaining steps to confirm it. The targeted frame tool exists precisely for gaps like this one. In 18 runs it was pointed at the aftermath every time.</p>
+</section>
+
+<section id="f3">
+  <div class="kick">Finding 3</div>
+  <h2>Seeing the frames did not help</h2>
+  <p>We asked a simple question: does the coach actually use the video? To find out, the same agent ran four times on the same climb, and the only thing that changed was what it was allowed to see. <b>Control</b> saw the eight frames it normally gets. <b>Blind</b> saw no images at all, only the pose numbers and the stage table. <b>Evidence removal</b> saw the frames with the moment of the fall cut out. <b>Swap</b> was shown another climber's video under this climb's name, so it could not be right; it is there to check that the scoring can tell wrong from right. I then scored every descriptive claim in the four outputs as true, partly true, false or unverifiable, shuffled so I did not know which arm had written it.</p>
+  <div class="tw"><table>
+    <thead><tr><th>Arm</th><th>What it saw</th><th>True</th><th>Partly</th><th>False</th><th>Can't verify</th><th>Share of claims true</th></tr></thead>
+    <tbody>
+      <tr><td><b>blind</b></td><td>no images</td><td class="n">3</td><td class="n">0</td><td class="n">1</td><td class="n">0</td><td class="n"><div class="bar"><i style="width:75px"></i>0.750</div></td></tr>
+      <tr><td><b>control</b></td><td>8 frames</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n"><div class="bar"><i style="width:50px"></i>0.500</div></td></tr>
+      <tr><td>evidence removal</td><td>8 frames, fall cut out</td><td class="n">0</td><td class="n">3</td><td class="n">1</td><td class="n">1</td><td class="n"><div class="bar"><i style="width:37px"></i>0.375</div></td></tr>
+      <tr><td>swap</td><td>another climber's video</td><td class="n">0</td><td class="n">1</td><td class="n">3</td><td class="n">0</td><td class="n"><div class="bar"><i style="width:12px"></i>0.125</div></td></tr>
+    </tbody>
+  </table></div>
+  <div class="two">
+    <div class="card">
+      <span class="lbl">control · 8 frames · marked false</span>
+      <blockquote class="quote">Entre <span class="ts">23.4 s</span> y <span class="ts">24.2 s</span> tu pie derecho sube muy alto pero recorre mucho camino sin fijarse: busca, resbala y vuelve casi al mismo punto.<span class="gloss">"Your right foot goes very high but travels a lot without setting: searches, slips, returns." Specific, timestamped, at the moment of the recovery, and wrong.</span></blockquote>
+    </div>
+    <div class="card">
+      <span class="lbl">blind · no images · 3 of 4 true</span>
+      <blockquote class="quote">En <span class="ts">20.9 s</span> lanzas un alcance largo con la mano derecha mientras las piernas se descomprimen y las caderas se alejan de la pared.<span class="gloss">"You launch a long reach with the right hand while the legs decompress and the hips leave the wall." Generic, plausible, built from the numbers alone, and mostly right.</span></blockquote>
+    </div>
+  </div>
+  <div class="callout"><p><b>Before any scores existed</b>, I was shown these two outputs as A and B, told one had received no images, and asked which. I picked the sighted one as the blind one: <em>"it talks about the right foot stepping in a timeframe but that's not the case, that's exactly when the uncontrolled footswitch happens."</em></p></div>
+  <h3>What holds, and what does not</h3>
+  <ul>
+    <li><b>Holds:</b> the check worked. The arm shown the wrong video scored lowest without my knowing which it was. Seeing the frames scored lower than seeing nothing, on both a whole-text rating and the claim count.</li>
+    <li><b>Holds:</b> no arm named the fault. Both arms that described the moment called it a slip.</li>
+    <li><b>Holds:</b> counting claims separated arms that reading the whole text could not. Evidence removal wrote the longest output, read second best, and had zero fully true claims.</li>
+    <li><b>Does not:</b> this is one climb and one judge; one claim moves control by 17 points. Control and blind ran on the final agent code; swap and evidence removal ran on an earlier build, so only the blind-versus-control contrast is a clean comparison.</li>
+  </ul>
+</section>
+
+<section id="takeaways">
+  <div class="kick">What this says about the model</div>
+  <h2>Four things the record shows</h2>
+  <ul>
+    <li><b>It describes states, not transitions.</b> Every version described the body after the event, in the right second, and never the event. Position in a frame it reads well. What changed between two frames it infers from a prior.</li>
+    <li><b>Motion arrives as numbers in text, and numbers do not make it look.</b> The instrument reported a foot moving a full torso-length inside an unobserved gap. The agent treated the line as a statistic. A climber treats it as the moment to look, because they know what moving a foot there costs. That knowledge of consequences is what was missing, not pixels.</li>
+    <li><b>It confirms rather than investigates.</b> The hypothesis was fixed before the first image, the video was looked at once, the metrics "confirmed what I saw", and the one close look went to the aftermath. More tools did not produce more looking.</li>
+    <li><b>Confidence is not tied to observation.</b> "I have the complete sequence" was written over a 1.68-second hole. The output with no images read as well as the one with them, and the one with them contained the specific wrong claim. A system that cannot tell what it has not seen cannot be trusted on why.</li>
+  </ul>
+</section>
+
+<details>
+  <summary>Method, versions and caveats</summary>
+  <div class="body">
+    <h3>The product</h3>
+    <p>The shipped coach is a three-stage pipeline: a <b>perceiver</b> that sees a handful of frames spread across the climb and writes structured observations, a text-only <b>analyst</b> that reasons over those observations plus pose metrics, and a <b>writer</b> that produces the coaching. The analyst never sees pixels. The two production quotes in Finding 1 are from the same climb run through this pipeline twice while the analyst prompt was being rewritten, both on Claude Sonnet 5.</p>
+    <h3>The agent</h3>
+    <p>The agent version replaces the fixed passes with a tool loop: ten tools (extract frames, extract frames from a chosen window, zoom on a body part, compute metrics, search the technique corpus, and others), a budget of ten steps, the model decides what to call. Each frame it receives carries a landmark-confidence line and a motion line describing what the pose data says moved since the previous frame. The quotes in Finding 2 are from the control run of the ablation, which ran on the final agent code; the Finding 1 agent quote is from the earlier live run. The count of 18 covers every stored agent run on this climb, across five versions of the agent code.</p>
+    <h3>The ablation and the scoring</h3>
+    <p>Four arms. Control and blind ran on the final agent code; swap and evidence removal ran on an earlier build with an earlier prompt. The A/B question in Finding 3 was asked before any scoring. Scoring was done in two blinded passes: a whole-text rating, then a claim-level audit of 17 descriptive claims, shuffled and unattributed. One climber judged, who is also the climber in the video.</p>
+    <h3>The chart</h3>
+    <p>Speed is the ankle landmark's displacement between consecutive frames, times 28.6 frames per second, in torso-lengths, where one torso-length is the mean shoulder-to-hip distance over frames 600 to 700. Left ankle peaks at 7.1 torso-lengths per second at frame 640, inside the switch. The right-ankle landmark has low confidence on this camera side for the whole climb, so its trace is indicative only. The large spikes after 24.5 s are the fall.</p>
+    <h3>How to read the numbers</h3>
+    <p>As direction, not rates. One judge, two climbers' footage, three to five checkable claims per output. Every figure on this page is from a file on disk: stored traces, stored outputs, the pose series, the scoreboard. Quotes in Spanish are the product's actual output; the glosses are mine.</p>
+  </div>
+</details>
+
+</div>
+</body>
+</html>
